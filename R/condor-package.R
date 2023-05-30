@@ -12,6 +12,9 @@
 #' submitter machine to Condor. Functions are provided to submit, list, and
 #' download Condor jobs from R.
 #'
+#' Condor is an open source high-throughput computing software framework for
+#' distributed parallelization of computationally intensive tasks.
+#'
 #' @details
 #' \emph{Main interface:}
 #' \tabular{ll}{

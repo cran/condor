@@ -3,9 +3,10 @@
 #' Download results from a Condor job.
 #'
 #' @param run.dir name of a Condor run directory inside \code{top.dir}.
+#' @param local.dir local directory to download to.
 #' @param top.dir top directory on submitter machine that contains Condor run
 #'        directories.
-#' @param local.dir local directory to download to.
+#' @param create.dir whether to create \code{local.dir} if it does not exist.
 #' @param pattern regular expression identifying which result files to download.
 #'        Passing \code{pattern="*"} will download all files.
 #' @param overwrite whether to overwrite local files if they already exist.
@@ -42,12 +43,17 @@
 #'
 #' @examples
 #' \dontrun{
+#'
+#' # General workflow
 #' session <- ssh_connect("servername")
 #'
 #' condor_submit()
 #' condor_q()
 #' condor_dir()
 #' condor_download()  # after job has finished
+#'
+#' # Alternatively, download specific run to specific folder
+#' condor_download("01_this_model", "c:/myruns/01_this_model")
 #' }
 #'
 #' @importFrom ssh scp_download ssh_exec_internal ssh_exec_wait
@@ -55,7 +61,8 @@
 #'
 #' @export
 
-condor_download <- function(run.dir=NULL, top.dir="condor", local.dir=".",
+condor_download <- function(run.dir=NULL, local.dir=".", top.dir="condor",
+                            create.dir=FALSE,
                             pattern="End.tar.gz|condor.*(err|log|out)$",
                             overwrite=FALSE, remove=FALSE, untar.end=TRUE,
                             session=NULL)
@@ -70,8 +77,10 @@ condor_download <- function(run.dir=NULL, top.dir="condor", local.dir=".",
   remote.dir <- file.path(top.dir, run.dir)
 
   # Confirm that local.dir exists
-  if(!dir.exists(local.dir))
-    stop(local.dir, " not found")
+  if(!dir.exists(local.dir) && !create.dir)
+    stop("'local.dir' not found - consider create.dir=TRUE")
+  if(!dir.exists(local.dir) && create.dir)
+    dir.create(local.dir, showWarnings=FALSE, recursive=TRUE)
 
   # Ensure local.dir exists
   dir.create(local.dir, showWarnings=FALSE, recursive=TRUE)
