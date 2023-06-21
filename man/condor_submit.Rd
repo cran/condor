@@ -65,8 +65,16 @@ condor_submit("c:/myruns/01_this_model")
 
 }
 \seealso{
-\code{condor_submit}, \code{\link{condor_q}}, \code{\link{condor_dir}}, and
-\code{\link{condor_download}} provide the main Condor interface.
+\code{\link{condor_submit}}, \code{\link{condor_q}},
+\code{\link{condor_dir}}, and \code{condor_download} provide the main Condor
+interface.
+
+\code{\link{condor_rm}} stops Condor jobs and \code{\link{condor_rmdir}}
+removes directories on the submitter machine.
+
 
 \code{\link{condor-package}} gives an overview of the package.
+}
+\author{
+Arni Magnusson.
 }

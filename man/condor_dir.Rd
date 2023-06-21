@@ -4,20 +4,23 @@
 \alias{condor_dir}
 \title{Condor Directories}
 \usage{
-condor_dir(pattern = "*", top.dir = "condor", local.dir = NULL,
-  report = TRUE, session = NULL, ...)
+condor_dir(top.dir = "condor", local.dir = NULL, pattern = "*",
+  report = TRUE, sort = "job.id", session = NULL, ...)
 }
 \arguments{
-\item{pattern}{regular expression identifying which run directories to show.
-The default is to show all directories inside \code{top.dir}.}
-
 \item{top.dir}{top directory on submitter machine that contains Condor run
 directories.}
 
 \item{local.dir}{local directory to examine instead of \code{top.dir}.}
 
+\item{pattern}{regular expression identifying which run directories to show.
+The default is to show all directories inside \code{top.dir} or
+\code{local.dir}.}
+
 \item{report}{whether to return a detailed report of the run status in each
 directory.}
+
+\item{sort}{column name or column number used to sort the report data frame.}
 
 \item{session}{optional object of class \code{ssh_connect}.}
 
@@ -31,6 +34,11 @@ A data frame containing details about each directory, or if
 List Condor run directories, either on submitter machine or on a local drive.
 }
 \details{
+If the user passes \code{top.dir} that resembles a Windows local directory
+(drive letter, colon, forward slash), it is automatically interpreted as a
+\code{local.dir}. In other words, \code{condor_dir("c:/myruns")} and
+\code{condor_dir(local.dir="c:/myruns")} are equivalent.
+
 The default value of \code{session = NULL} looks for a \code{session} object
 in the user workspace. This allows the user to run Condor functions without
 explicitly specifying the \code{session}.
@@ -52,16 +60,24 @@ condor_dir()
 condor_download()  # after job has finished
 
 # Alternatively, examine runs on local drive
-condor_dir(local.dir="c:/myruns")
+condor_dir(local.dir="myruns")
+condor_dir("c:/myruns")
 }
 
 }
 \seealso{
-\code{\link{condor_submit}}, \code{\link{condor_q}}, \code{condor_dir}, and
-\code{\link{condor_download}} provide the main Condor interface.
+\code{\link{condor_submit}}, \code{\link{condor_q}},
+\code{\link{condor_dir}}, and \code{condor_download} provide the main Condor
+interface.
+
+\code{\link{condor_rm}} stops Condor jobs and \code{\link{condor_rmdir}}
+removes directories on the submitter machine.
 
 \code{\link{condor_log}} and \code{\link{summary.condor_log}} are called to
 produce the detailed report if \code{report = TRUE}.
 
 \code{\link{condor-package}} gives an overview of the package.
+}
+\author{
+Arni Magnusson.
 }

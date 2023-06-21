@@ -14,8 +14,8 @@
 \value{
 Data frame with the following columns:
 \item{job.id}{job id.}
-\item{status}{text indicating whether job status is submitted, executing, or
-      finished.}
+\item{status}{text indicating whether job status is submitted, executing,
+  aborted, or finished.}
 \item{submit.time}{date and time when job was submitted.}
 \item{runtime}{total duration of a job.}
 \item{disk}{disk space used by job (MB).}
@@ -45,4 +45,7 @@ summary(condor_log(local.dir="c:/myruns/01_this_model"))
 \code{\link{condor_log}} shows Condor log file.
 
 \code{\link{condor-package}} gives an overview of the package.
+}
+\author{
+Arni Magnusson.
 }

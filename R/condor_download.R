@@ -10,8 +10,6 @@
 #' @param pattern regular expression identifying which result files to download.
 #'        Passing \code{pattern="*"} will download all files.
 #' @param overwrite whether to overwrite local files if they already exist.
-#' @param remove whether to remove remote directory after downloading result
-#'        files.
 #' @param untar.end whether to extract \code{End.tar.gz} into
 #'        \emph{local.dir} after downloading. (Ignored if a file named
 #'        \file{End.tar.gz} was not downloaded.)
@@ -34,10 +32,15 @@
 #'
 #' @return No return value, called for side effects.
 #'
+#' @author Arni Magnusson.
+#'
 #' @seealso
 #' \code{\link{condor_submit}}, \code{\link{condor_q}},
 #' \code{\link{condor_dir}}, and \code{condor_download} provide the main Condor
 #' interface.
+#'
+#' \code{\link{condor_rm}} stops Condor jobs and \code{\link{condor_rmdir}}
+#' removes directories on the submitter machine.
 #'
 #' \code{\link{condor-package}} gives an overview of the package.
 #'
@@ -64,8 +67,7 @@
 condor_download <- function(run.dir=NULL, local.dir=".", top.dir="condor",
                             create.dir=FALSE,
                             pattern="End.tar.gz|condor.*(err|log|out)$",
-                            overwrite=FALSE, remove=FALSE, untar.end=TRUE,
-                            session=NULL)
+                            overwrite=FALSE, untar.end=TRUE, session=NULL)
 {
   # Expand dot so basename() works
   if(local.dir == ".")
@@ -91,7 +93,7 @@ condor_download <- function(run.dir=NULL, local.dir=".", top.dir="condor",
 
   # Confirm that user is downloading a single remote.dir
   if(length(remote.dir) > 1)
-    stop("only one 'remote.dir' can be downloaded at a time")
+    stop("only one remote directory can be downloaded at a time")
 
   # Confirm that remote.dir exists
   rd.exists <- ssh_exec_internal(session, paste("cd", remote.dir), error=FALSE)
@@ -117,13 +119,6 @@ condor_download <- function(run.dir=NULL, local.dir=".", top.dir="condor",
          to=local.dir)
   if(untar.end && file.exists(file.path(local.dir, "End.tar.gz")))
     untar(file.path(local.dir, "End.tar.gz"), exdir=local.dir)
-
-  # Remove remote.dir
-  if(remove)
-  {
-    ssh_exec_wait(session, paste("cd", remote.dir, ";", "cd ..;",
-                                 "rm -rf", basename(remote.dir)))
-  }
 
   invisible(NULL)
 }

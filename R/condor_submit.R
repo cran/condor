@@ -34,9 +34,16 @@
 #' to submitter machine, and (2) execute shell command \command{condor_submit}
 #' on submitter machine to launch the Condor job.
 #'
+#' @author Arni Magnusson.
+#'
 #' @seealso
-#' \code{condor_submit}, \code{\link{condor_q}}, \code{\link{condor_dir}}, and
-#' \code{\link{condor_download}} provide the main Condor interface.
+#' \code{\link{condor_submit}}, \code{\link{condor_q}},
+#' \code{\link{condor_dir}}, and \code{condor_download} provide the main Condor
+#' interface.
+#'
+#' \code{\link{condor_rm}} stops Condor jobs and \code{\link{condor_rmdir}}
+#' removes directories on the submitter machine.
+#'
 #'
 #' \code{\link{condor-package}} gives an overview of the package.
 #'
@@ -92,6 +99,8 @@ condor_submit <- function(local.dir=".", run.dir=NULL, top.dir="condor",
   # Create Start.tar.gz (excluding existing tar.gz files) inside tempdir()
   files <- dir(local.dir, full.names=TRUE)
   files <- grep(exclude, files, invert=TRUE, value=TRUE)
+  if(!dir.exists(tempdir()))  # tempdir() may not exist, ran into that yesterday
+    dir.create(tempdir())
   Start.tar.gz <- file.path(tempdir(), "Start.tar.gz")
   owd <- setwd(local.dir); on.exit(setwd(owd))  # avoid paths inside tar file
   tar(Start.tar.gz, basename(files), compression="gzip")

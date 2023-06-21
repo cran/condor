@@ -22,6 +22,11 @@ distributed parallelization of computationally intensive tasks.
   \code{\link{condor_dir}}      \tab list directories\cr
   \code{\link{condor_download}} \tab download
 }
+\emph{Stop and remove:}
+\tabular{ll}{
+  \code{\link{condor_rm}}    \tab stop jobs\cr
+  \code{\link{condor_rmdir}} \tab remove directories
+}
 \emph{Utilities:}
 \tabular{ll}{
   \code{\link{condor_log}}         \tab show log file\cr
@@ -39,5 +44,6 @@ distributed parallelization of computationally intensive tasks.
 machine.
 }
 \author{
-Arni Magnusson with contributions by Jemery Day and Thomas Teears.
+Arni Magnusson and Nan Yao, with contributions by Jemery Day and Thomas
+Teears.
 }
