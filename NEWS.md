@@ -1,3 +1,15 @@
+# condor 2.1.0 (2023-08-28)
+
+* Added function condor_qq() to produce a quick overview of the queue.
+
+* Added argument 'global' to condor_q().
+
+* Improved condor_q() so it captures and returns the screen output from the
+  condor_q shell command.
+
+
+
+
 # condor 2.0.0 (2023-06-21)
 
 * Added function condor_rm() to stop a Condor job.
@@ -5,7 +17,7 @@
 * Added function condor_rmdir() to remove a directory on the submitter machine.
   Removed argument 'remove' from condor_download().
 
-* Added argument 'sort' in condor_dir().
+* Added argument 'sort' to condor_dir().
 
 * Changed argument order in condor_dir() so 'top.dir' comes first. First
   argument is automatically interpreted as a 'local'dir' if it resembles a

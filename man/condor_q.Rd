@@ -2,21 +2,29 @@
 % Please edit documentation in R/condor_q.R
 \name{condor_q}
 \alias{condor_q}
+\alias{condor_qq}
 \title{Condor Queue}
 \usage{
-condor_q(all = FALSE, count = FALSE, user = "", session = NULL)
+condor_q(all = FALSE, count = FALSE, global = FALSE, user = "",
+  session = NULL)
+
+condor_qq(all = TRUE, count = TRUE, global = TRUE, user = "",
+  session = NULL)
 }
 \arguments{
 \item{all}{whether to list jobs from all users.}
 
 \item{count}{whether to only show the number of jobs.}
 
+\item{global}{whether to list jobs submitted from all submitter machines.}
+
 \item{user}{username to list jobs submitted by a given user.}
 
 \item{session}{optional object of class \code{ssh_connect}.}
 }
 \value{
-No return value, called for side effects.
+Screen output from the \command{condor_q} shell command, or a table if
+\code{count = TRUE}.
 }
 \description{
 List the Condor job queue.
@@ -25,6 +33,15 @@ List the Condor job queue.
 The default value of \code{session = NULL} looks for a \code{session} object
 in the user workspace. This allows the user to run Condor functions without
 explicitly specifying the \code{session}.
+}
+\note{
+The \code{condor_q} R function has the same defaults as the
+\command{condor_q} shell command, listing only jobs that were submitted by
+the current user from the current submitter machine.
+
+The \code{condor_qq} alternative is the same function but with different
+default argument values, convenient for a \emph{quick} overview of the
+\emph{queue}.
 }
 \examples{
 \dontrun{

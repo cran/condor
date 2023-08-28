@@ -4,6 +4,7 @@
 #'
 #' @param all whether to list jobs from all users.
 #' @param count whether to only show the number of jobs.
+#' @param global whether to list jobs submitted from all submitter machines.
 #' @param user username to list jobs submitted by a given user.
 #' @param session optional object of class \code{ssh_connect}.
 #'
@@ -12,7 +13,18 @@
 #' in the user workspace. This allows the user to run Condor functions without
 #' explicitly specifying the \code{session}.
 #'
-#' @return No return value, called for side effects.
+#' @return
+#' Screen output from the \command{condor_q} shell command, or a table if
+#' \code{count = TRUE}.
+#'
+#' @note
+#' The \code{condor_q} R function has the same defaults as the
+#' \command{condor_q} shell command, listing only jobs that were submitted by
+#' the current user from the current submitter machine.
+#'
+#' The \code{condor_qq} alternative is the same function but with different
+#' default argument values, convenient for a \emph{quick} overview of the
+#' \emph{queue}.
 #'
 #' @author Arni Magnusson.
 #'
@@ -42,10 +54,12 @@
 #' }
 #'
 #' @importFrom ssh ssh_exec_wait
+#' @importFrom utils capture.output
 #'
 #' @export
 
-condor_q <- function(all=FALSE, count=FALSE, user="", session=NULL)
+condor_q <- function(all=FALSE, count=FALSE, global=FALSE, user="",
+                     session=NULL)
 {
   # Look for user session
   if(is.null(session))
@@ -57,13 +71,30 @@ condor_q <- function(all=FALSE, count=FALSE, user="", session=NULL)
     arg <- paste(arg, "-allusers")
   if(count)
     arg <- paste(arg, "-format '%s\n' Owner")
+  if(global)
+    arg <- paste(arg, "-global")
   if(user != "")
     arg <- paste(arg, "-submitter", user)
   cmd <- paste("condor_q", arg)
 
-  # Show count or screen output
+  # Table or screen output
   if(count)
-    table(ssh_exec_stdout(cmd))
+  {
+    out <- table(ssh_exec_stdout(cmd))
+  }
   else
-    ssh_exec_wait(session, cmd)
+  {
+    out <- capture.output(ssh_exec_wait(session, cmd))
+    class(out) <- "condor_log"
+  }
+  out
+}
+
+#' @rdname condor_q
+#'
+#' @export
+
+condor_qq <- function(all=TRUE, count=TRUE, global=TRUE, user="", session=NULL)
+{
+  condor_q(all=all, count=count, global=global, user=user, session=session)
 }

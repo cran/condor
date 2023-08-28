@@ -1,12 +1,12 @@
-eac33e7d670bef46eadf676f940940cd *DESCRIPTION
-e11e9f2b641e683b103d6d65474bb536 *NAMESPACE
-6b6c7e1b747ae5208dd81d17d4b74206 *NEWS.md
+1f8b00cfc648b20c474d20af891aa695 *DESCRIPTION
+b291f089ba595a6cdb217d817b8d1d10 *NAMESPACE
+4cbf86bdd8bd22f8ec2e66251325504a *NEWS.md
 16943641bd1decaa9eed9ee551da4edb *R/condor-internal.R
 8acda41ec2543241b8e4e15f5c0aeff7 *R/condor-package.R
-c81e8ecd60b1f84516873e63319ec589 *R/condor_dir.R
+05c465c1939352837a8c1daf498c00d8 *R/condor_dir.R
 9cd19b6b84478d99720175e49c928a41 *R/condor_download.R
 1aa5f54eb80717ef1981461f226e6c1c *R/condor_log.R
-e362d21c66d934c9e9d070001232c8e2 *R/condor_q.R
+c3547f62ee3735e6b824f9d9160afc48 *R/condor_q.R
 af353c9cfdfdfb07a1fda13779366edc *R/condor_rm.R
 e4678b090bcdb2e9d6a2e0c0f0c13d35 *R/condor_rmdir.R
 5a78f58d0755eb912c3e26464cd2d788 *R/condor_submit.R
@@ -17,7 +17,7 @@ d8476a302d83510bb5f358fcba3a6289 *man/condor-package.Rd
 494c92a4f122021aed4caac715fd70b8 *man/condor_dir.Rd
 4441cffac4444566588f2b5b26e815cd *man/condor_download.Rd
 9e90258b16addc9caa087c7c4f9933c1 *man/condor_log.Rd
-01604018a2be444644a8ef11122fe72d *man/condor_q.Rd
+be5a33cdb7d1d0732badda0c3a4ff1fe *man/condor_q.Rd
 ec357608bd122935c356e4f81408e57d *man/condor_rm.Rd
 80ebaa240d01692a8170f94f18aa6435 *man/condor_rmdir.Rd
 6c6e3a5b01357da299854d2188c898dd *man/condor_submit.Rd
