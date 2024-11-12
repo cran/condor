@@ -29,9 +29,8 @@
 #' @author Arni Magnusson.
 #'
 #' @seealso
-#' \code{\link{condor_submit}}, \code{\link{condor_q}},
-#' \code{\link{condor_dir}}, and \code{condor_download} provide the main Condor
-#' interface.
+#' \code{\link{condor_submit}}, \code{condor_q}, \code{\link{condor_dir}}, and
+#' \code{\link{condor_download}} provide the main Condor interface.
 #'
 #' \code{\link{condor_rm}} stops Condor jobs and \code{\link{condor_rmdir}}
 #' removes directories on the submitter machine.
@@ -85,7 +84,8 @@ condor_q <- function(all=FALSE, count=FALSE, global=FALSE, user="",
   else
   {
     out <- capture.output(ssh_exec_wait(session, cmd))
-    class(out) <- "condor_log"
+    out <- out[out != "[1] 0"]
+    class(out) <- "condor_q"
   }
   out
 }
@@ -97,4 +97,25 @@ condor_q <- function(all=FALSE, count=FALSE, global=FALSE, user="",
 condor_qq <- function(all=TRUE, count=TRUE, global=TRUE, user="", session=NULL)
 {
   condor_q(all=all, count=count, global=global, user=user, session=session)
+}
+
+#' @rdname condor-internal
+#'
+#' @export
+#' @export print.condor_q
+
+print.condor_q <- function(x, ...)
+{
+  writeLines(x, ...)
+  invisible(x)
+}
+
+#' @rdname condor-internal
+#'
+#' @export
+#' @export summary.condor_q
+
+summary.condor_q <- function(object, ...)
+{
+  NULL
 }

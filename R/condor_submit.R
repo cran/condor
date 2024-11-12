@@ -8,6 +8,8 @@
 #'        \code{top.dir}.
 #' @param top.dir top directory on submitter machine that contains Condor run
 #'        directories.
+#' @param unix pattern identifying files in \code{local.dir} that should have
+#'        Unix line endings.
 #' @param exclude pattern identifying files in \code{local.dir} that should not
 #'        be submitted to Condor.
 #' @param session optional object of class \code{ssh_connect}.
@@ -23,6 +25,10 @@
 #' directories inside the user home. To organize Condor runs directly in the
 #' home folder on the submitter machine, pass \code{top.dir = ""}.
 #'
+#' The default value of \code{unix = "\\.sh$"} ensures that shell scripts with a
+#' \file{.sh} file extension have Unix line endings. Pass \code{FALSE} to
+#' disable conversion of line endings.
+#'
 #' The default value of \code{session = NULL} looks for a \code{session} object
 #' in the user workspace. This allows the user to run Condor functions without
 #' explicitly specifying the \code{session}.
@@ -37,13 +43,13 @@
 #' @author Arni Magnusson.
 #'
 #' @seealso
-#' \code{\link{condor_submit}}, \code{\link{condor_q}},
-#' \code{\link{condor_dir}}, and \code{condor_download} provide the main Condor
-#' interface.
+#' \code{condor_submit}, \code{\link{condor_q}}, \code{\link{condor_dir}}, and
+#' \code{\link{condor_download}} provide the main Condor interface.
 #'
 #' \code{\link{condor_rm}} stops Condor jobs and \code{\link{condor_rmdir}}
 #' removes directories on the submitter machine.
 #'
+#' \code{\link{dos2unix}} converts line endings.
 #'
 #' \code{\link{condor-package}} gives an overview of the package.
 #'
@@ -69,7 +75,8 @@
 #' @export
 
 condor_submit <- function(local.dir=".", run.dir=NULL, top.dir="condor",
-                          exclude="condor_mfcl|tar.gz|End", session=NULL)
+                          unix="\\.sh$", exclude="condor_mfcl|tar.gz|End",
+                          session=NULL)
 {
   # Expand dot so basename() works
   if(local.dir == ".")
@@ -95,6 +102,13 @@ condor_submit <- function(local.dir=".", run.dir=NULL, top.dir="condor",
   already <- ssh_exec_internal(session, paste("ls", remote.dir), error=FALSE)
   if(already$status == 0)
     stop("'", remote.dir, "' already exists on Condor submitter")
+
+  # Convert line endings
+  if(is.character(unix) && nchar(unix) > 0)
+  {
+    unix.files <- dir(local.dir, pattern=unix, full.names=TRUE)
+    sapply(unix.files, dos2unix)
+  }
 
   # Create Start.tar.gz (excluding existing tar.gz files) inside tempdir()
   files <- dir(local.dir, full.names=TRUE)

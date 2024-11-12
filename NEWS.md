@@ -1,3 +1,24 @@
+# condor 3.0.0 (2024-11-12)
+
+* Changed the default behavior of condor_submit() to ensure that shell scripts
+  with a '.sh' file extension have Unix line endings. Pass unix=FALSE to disable
+  conversion of line endings.
+
+* Added functions dos2unix() and unix2dos() to convert line endings in a text
+  file.
+
+* Added argument 'unix' to condor_submit().
+
+* Added a simple class 'condor_q' for the output of condor_q() with a print()
+  method. This helps distinguish it from the 'condor_log' class, which has
+  print() and summary() methods.
+
+* Improved condor_dir() output when log files include multiple values of disk
+  and memory usage.
+
+
+
+
 # condor 2.1.0 (2023-08-28)
 
 * Added function condor_qq() to produce a quick overview of the queue.
