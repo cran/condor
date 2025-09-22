@@ -1,6 +1,6 @@
 Package: condor
-Version: 3.0.0
-Date: 2024-11-12
+Version: 3.0.1
+Date: 2025-09-22
 Title: Interact with 'Condor' from R via SSH
 Authors@R: c(person("Arni", "Magnusson", role=c("aut","cre"), email="thisisarni@gmail.com"),
              person("Nan", "Yao", role="aut"),
@@ -16,16 +16,15 @@ Description: Interact with 'Condor' from R via SSH connection. Files are first
   high-throughput computing software framework for distributed parallelization
   of computationally intensive tasks.
 License: GPL-3
-URL: https://github.com/PacificCommunity/ofp-sam-condor,
-        https://htcondor.org
+URL: https://github.com/PacificCommunity/condor, https://htcondor.org
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 NeedsCompilation: no
-Packaged: 2024-11-12 02:37:18 UTC; arnim
+Packaged: 2025-09-22 05:47:38 UTC; arnim
 Author: Arni Magnusson [aut, cre],
   Nan Yao [aut],
   Jemery Day [ctb],
   Thomas Teears [ctb]
 Maintainer: Arni Magnusson <thisisarni@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-11-12 10:20:08 UTC
+Date/Publication: 2025-09-22 06:20:02 UTC

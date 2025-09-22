@@ -1,3 +1,10 @@
+# condor 3.0.1 (2025-09-22)
+
+* Updated GitHub URL of the package.
+
+
+
+
 # condor 3.0.0 (2024-11-12)
 
 * Changed the default behavior of condor_submit() to ensure that shell scripts

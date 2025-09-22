@@ -40,7 +40,7 @@
 #' Teears.
 #'
 #' @references
-#' \url{https://github.com/PacificCommunity/ofp-sam-condor}
+#' \url{https://github.com/PacificCommunity/condor}
 #'
 #' \url{https://htcondor.org}
 #'
