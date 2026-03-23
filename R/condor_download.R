@@ -84,9 +84,6 @@ condor_download <- function(run.dir=NULL, local.dir=".", top.dir="condor",
   if(!dir.exists(local.dir) && create.dir)
     dir.create(local.dir, showWarnings=FALSE, recursive=TRUE)
 
-  # Ensure local.dir exists
-  dir.create(local.dir, showWarnings=FALSE, recursive=TRUE)
-
   # Look for user session
   if(is.null(session))
     session <- get("session", pos=.GlobalEnv, inherits=FALSE)
@@ -118,7 +115,10 @@ condor_download <- function(run.dir=NULL, local.dir=".", top.dir="condor",
   sapply(file.path(remote.dir, files), scp_download, session=session,
          to=local.dir)
   if(untar.end && file.exists(file.path(local.dir, "End.tar.gz")))
-    untar(file.path(local.dir, "End.tar.gz"), exdir=local.dir)
+  {
+    full.dir <- path.expand(local.dir)  # expand tilde to /home/$USER for Linux
+    untar(file.path(full.dir, "End.tar.gz"), exdir=full.dir)
+  }
 
   invisible(NULL)
 }

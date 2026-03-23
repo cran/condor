@@ -1,10 +1,10 @@
-7f9abc4f01c6c394dd7d1b4b3dfe6773 *DESCRIPTION
+adf65909a853513f4b3257335d645e54 *DESCRIPTION
 50ca7ea333911145565fdc80105a2f6b *NAMESPACE
-0854b635ead6845eb11aa3d2c236635f *NEWS.md
+1b6b5f0b798cb24df2c7b1fc11c3d4c6 *NEWS.md
 16943641bd1decaa9eed9ee551da4edb *R/condor-internal.R
 163e40196727a29242abf7ea7d2be8f9 *R/condor-package.R
 1aa7de43102e6fdb320676b2cf6d04c0 *R/condor_dir.R
-9cd19b6b84478d99720175e49c928a41 *R/condor_download.R
+4db331e46f8f5c6b66b5047ab3b47ad1 *R/condor_download.R
 1aa5f54eb80717ef1981461f226e6c1c *R/condor_log.R
 ae01408e98e6e59ed33130d4db16dbfd *R/condor_q.R
 4c581c86503ac870f1c026f3ee9ab333 *R/condor_rm.R

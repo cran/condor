@@ -1,3 +1,11 @@
+# condor 3.0.2 (2026-03-23)
+
+* Improved condor_download() to support tilde in 'local.dir' path across
+  platforms.
+
+
+
+
 # condor 3.0.1 (2025-09-22)
 
 * Updated GitHub URL of the package.
