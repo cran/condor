@@ -4,7 +4,7 @@
 #'
 #' @param command command or script to execute.
 #' @param session optional object of class \code{ssh_connect}.
-#' @param \dots passed to \code{\link[ssh]{ssh_exec_internal}}.
+#' @param ... passed to \code{\link[ssh]{ssh_exec_internal}}.
 #'
 #' @details
 #' The default value of \code{session = NULL} looks for a \code{session} object

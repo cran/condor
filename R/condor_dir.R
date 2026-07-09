@@ -8,11 +8,12 @@
 #' @param pattern regular expression identifying which run directories to show.
 #'        The default is to show all directories inside \code{top.dir} or
 #'        \code{local.dir}.
-#' @param report whether to return a detailed report of the run status in each
-#'        directory.
+#' @param report whether to return a report of the run status in each directory.
+#' @param details whether to include \code{disk}, \code{memory}, \code{cpus},
+#'        and \code{machine} in the report.
 #' @param sort column name or column number used to sort the report data frame.
 #' @param session optional object of class \code{ssh_connect}.
-#' @param \dots passed to \code{\link{grep}}.
+#' @param ... passed to \code{\link{grep}}.
 #'
 #' @details
 #' If the user passes \code{top.dir} that resembles a Windows local directory
@@ -25,7 +26,7 @@
 #' explicitly specifying the \code{session}.
 #'
 #' @return
-#' A data frame containing details about each directory, or if
+#' A data frame containing information about each directory, or if
 #' \code{report = FALSE} a \code{character} vector of directory names.
 #'
 #' @note
@@ -43,7 +44,7 @@
 #' removes directories on the submitter machine.
 #'
 #' \code{\link{condor_log}} and \code{\link{summary.condor_log}} are called to
-#' produce the detailed report if \code{report = TRUE}.
+#' produce the report if \code{report = TRUE}.
 #'
 #' \code{\link{condor-package}} gives an overview of the package.
 #'
@@ -68,7 +69,8 @@
 #' @export
 
 condor_dir <- function(top.dir="condor", local.dir=NULL, pattern="*",
-                       report=TRUE, sort="job.id", session=NULL, ...)
+                       report=TRUE, details=FALSE, sort="job.id", session=NULL,
+                       ...)
 {
   # Interpret top.dir as local.dir if it starts with drive letter, colon, slash
   if(is.null(local.dir) && isTRUE(grepl("^[A-Za-z]:/", top.dir)))
@@ -113,7 +115,10 @@ condor_dir <- function(top.dir="condor", local.dir=NULL, pattern="*",
   {
     output <- data.frame(dir=character(), job.id=integer(), status=character(),
                          submit.time=character(), runtime=character(),
-                         disk=numeric(), memory=numeric())
+                         disk=numeric(), memory=numeric(), cpus=integer(),
+                         machine=character())
+    if(!details)
+      output <- output[c("dir", "job.id", "status", "submit.time", "runtime")]
     if(is.character(sort) && length(sort)==1 && !(sort %in% names(output)))
       stop("column '", sort, "' not found in report data frame")
     if(is.numeric(sort) && length(sort) == 1 && !(abs(sort) %in% seq_along(output)))
@@ -122,10 +127,15 @@ condor_dir <- function(top.dir="condor", local.dir=NULL, pattern="*",
     {
       output[i,1] <- dirs[i]
       if(is.null(local.dir))
-        output[i,-1] <- summary(condor_log(run.dir=dirs[i], top.dir=top.dir))
+      {
+        output[i,-1] <- summary(
+          condor_log(run.dir=dirs[i], top.dir=top.dir), details=details)
+      }
       else
-        output[i,-1] <- summary(condor_log(local.dir=file.path(local.dir,
-                                                               dirs[i])))
+      {
+        output[i,-1] <- summary(
+          condor_log(local.dir=file.path(local.dir, dirs[i])), details=details)
+      }
     }
   }
   else

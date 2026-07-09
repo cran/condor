@@ -3,7 +3,9 @@
 #' Produce a summary of a Condor log file.
 #'
 #' @param object an object of class \code{\link{condor_log}}.
-#' @param \dots passed to \code{round}.
+#' @param details whether to include columns with additional details:
+#'        \code{disk}, \code{memory}, \code{cpus}, and \code{machine}.
+#' @param ... passed to \code{round}.
 #'
 #' @return
 #' Data frame with the following columns:
@@ -12,8 +14,12 @@
 #'   aborted, or finished.}
 #' \item{submit.time}{date and time when job was submitted.}
 #' \item{runtime}{total duration of a job.}
+#'
+#' If \code{details = TRUE}, the data frame also contains the following columns:
 #' \item{disk}{disk space used by job (MB).}
 #' \item{memory}{memory used by job (MB).}
+#' \item{cpus}{number of cores used by job.}
+#' \item{machine}{machine running the job.}
 #'
 #' @seealso
 #' \code{\link{condor_log}} shows Condor log file.
@@ -42,22 +48,22 @@
 #'
 #' @export
 
-summary.condor_log <- function(object, ...)
+summary.condor_log <- function(object, details=FALSE, ...)
 {
   job.id <- gsub(".*\\(([0-9]+)\\..*", "\\1", object[1])
   job.id <- type.convert(job.id, as.is=TRUE)
   if(!is.integer(job.id))
     job.id <- NA_integer_
 
-  status <- if(any(grepl("Job terminated", object)))
+  status <- if(any(grepl("Job terminated", object))) {
               "finished"
-            else if(any(grepl("Job was aborted", object)))
+            } else if(any(grepl("Job was aborted", object))) {
               "aborted"
-            else if(any(grepl("Job executing", object)))
+            } else if(any(grepl("Job executing", object))) {
               "executing"
-            else if(any(grepl("Job submitted", object)))
+            } else if(any(grepl("Job submitted", object))) {
               "submitted"
-            else
+            } else
               NA_character_
 
   submit.time <- gsub(".*\\) (.*) Job.*", "\\1", object[1])
@@ -89,6 +95,22 @@ summary.condor_log <- function(object, ...)
   if(length(memory) == 0)
     memory <- NA_integer_
 
-  data.frame(job.id=job.id, status=status, submit.time=submit.time,
-             runtime=runtime, disk=disk, memory=memory)
+  cpus <- grep("Cpus =", object, value=TRUE)
+  cpus <- tail(cpus, 1)  # final number of cpus, if many values are reported
+  cpus <- gsub(".*= ", "", cpus)
+  cpus <- as.integer(cpus)
+
+  machine <- grep("SlotName: ", object, value=TRUE)
+  machine <- tail(machine, 1)  # final machine used, if many values are reported
+  machine <- gsub(".*@(.*?)\\..*", "\\1", machine)
+
+  if(details)
+  {
+    data.frame(job.id, status, submit.time, runtime, disk, memory, cpus,
+               machine)
+  }
+  else
+  {
+    data.frame(job.id, status, submit.time, runtime)
+  }
 }

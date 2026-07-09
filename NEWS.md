@@ -1,3 +1,15 @@
+# condor 3.0.3 (2026-07-09)
+
+* Added argument 'details' to condor_report() and summary.condor_log(). Changed
+  default output of condor_dir() and summary.condor_log() to include only
+  dir, job.id, status, submit.time, and runtime.
+
+* Improved condor_log() to handle 'local.dir' that contains exactly one .log
+  file.
+
+
+
+
 # condor 3.0.2 (2026-03-23)
 
 * Improved condor_download() to support tilde in 'local.dir' path across
@@ -56,7 +68,7 @@
 * Added argument 'sort' to condor_dir().
 
 * Changed argument order in condor_dir() so 'top.dir' comes first. First
-  argument is automatically interpreted as a 'local'dir' if it resembles a
+  argument is automatically interpreted as a 'local.dir' if it resembles a
   Windows local directory, as in condor_dir("c:/myruns").
 
 * Improved condor_dir() by adding a status category 'aborted' to identify runs

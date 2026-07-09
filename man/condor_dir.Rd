@@ -5,7 +5,7 @@
 \title{Condor Directories}
 \usage{
 condor_dir(top.dir = "condor", local.dir = NULL, pattern = "*",
-  report = TRUE, sort = "job.id", session = NULL, ...)
+  report = TRUE, details = FALSE, sort = "job.id", session = NULL, ...)
 }
 \arguments{
 \item{top.dir}{top directory on submitter machine that contains Condor run
@@ -17,17 +17,19 @@ directories.}
 The default is to show all directories inside \code{top.dir} or
 \code{local.dir}.}
 
-\item{report}{whether to return a detailed report of the run status in each
-directory.}
+\item{report}{whether to return a report of the run status in each directory.}
+
+\item{details}{whether to include \code{disk}, \code{memory}, \code{cpus},
+and \code{machine} in the report.}
 
 \item{sort}{column name or column number used to sort the report data frame.}
 
 \item{session}{optional object of class \code{ssh_connect}.}
 
-\item{\dots}{passed to \code{\link{grep}}.}
+\item{...}{passed to \code{\link{grep}}.}
 }
 \value{
-A data frame containing details about each directory, or if
+A data frame containing information about each directory, or if
 \code{report = FALSE} a \code{character} vector of directory names.
 }
 \description{
@@ -73,7 +75,7 @@ condor_dir("c:/myruns")
 removes directories on the submitter machine.
 
 \code{\link{condor_log}} and \code{\link{summary.condor_log}} are called to
-produce the detailed report if \code{report = TRUE}.
+produce the report if \code{report = TRUE}.
 
 \code{\link{condor-package}} gives an overview of the package.
 }

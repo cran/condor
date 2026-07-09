@@ -100,7 +100,7 @@ condor_log <- function(run.dir=".", top.dir="condor", local.dir=NULL,
     filename <- dir(directory, pattern="\\.log$", full.names=TRUE)
     if(length(filename) == 0)
       stop("no *.log file found in '", directory, "'")
-    txt <- sapply(filename, readLines)
+    txt <- sapply(filename, readLines, simplify=FALSE)
     long <- lapply(txt, paste, collapse="\n")
     filename <- filename[sapply(long, grepl, pattern="Job submitted")]
     if(length(filename) == 0)

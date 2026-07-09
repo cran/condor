@@ -4,12 +4,15 @@
 \alias{summary.condor_log}
 \title{Summary Condor Log}
 \usage{
-\method{summary}{condor_log}(object, ...)
+\method{summary}{condor_log}(object, details = FALSE, ...)
 }
 \arguments{
 \item{object}{an object of class \code{\link{condor_log}}.}
 
-\item{\dots}{passed to \code{round}.}
+\item{details}{whether to include columns with additional details:
+\code{disk}, \code{memory}, \code{cpus}, and \code{machine}.}
+
+\item{...}{passed to \code{round}.}
 }
 \value{
 Data frame with the following columns:
@@ -18,8 +21,12 @@ Data frame with the following columns:
   aborted, or finished.}
 \item{submit.time}{date and time when job was submitted.}
 \item{runtime}{total duration of a job.}
+
+If \code{details = TRUE}, the data frame also contains the following columns:
 \item{disk}{disk space used by job (MB).}
 \item{memory}{memory used by job (MB).}
+\item{cpus}{number of cores used by job.}
+\item{machine}{machine running the job.}
 }
 \description{
 Produce a summary of a Condor log file.

@@ -11,7 +11,7 @@ ssh_exec_stdout(command, session = NULL, ...)
 
 \item{session}{optional object of class \code{ssh_connect}.}
 
-\item{\dots}{passed to \code{\link[ssh]{ssh_exec_internal}}.}
+\item{...}{passed to \code{\link[ssh]{ssh_exec_internal}}.}
 }
 \value{
 A \code{"character"} vector containing the standard output.
